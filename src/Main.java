@@ -273,41 +273,4 @@ public class Main {
 
         return evenLines; // Return the even lines
     }
-
-
-    public static void main(String[] args) throws IOException {
-        // Address of the fasta file that contains the genetic data
-        String fileName = "";
-        List<String> lines = Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
-
-        String benchmarkStr = null;
-
-        List<String> geneLines = readEvenLines(fileName);
-
-        Iterator<String> iterator = geneLines.iterator();
-        while (iterator.hasNext()) {
-            String line = iterator.next();
-            benchmarkStr = line;
-            ArrayList<String> benchmark = new ArrayList<>();
-            String[] strings = benchmarkStr.split(",");
-            for (String string : strings)
-                benchmark.add(string);
-
-            // 待量化基因数据
-            String species = "";
-            for (String line1 : lines) {
-                if ('>' == (line1.charAt(0)) && !"".equals(line1)) {
-                    species = species + line1.substring(1) + "\n";
-                } else species = species + line1 + "\n";
-            }
-
-            // 获取基因区域
-            List<GeneRegion> geneRegions = new ArrayList<>();
-            geneRegions.add(new GeneRegion(1, 0, 4));
-            geneRegions.add(new GeneRegion(2, 5, 28));
-            geneRegions.add(new GeneRegion(3, 29, 44));
-            geneRegions.add(new GeneRegion(4, 45, 46));
-            Map<String, Object> result = getResult(benchmark, species, geneRegions);
-        }
-    }
 }
