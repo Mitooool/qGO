@@ -1,14 +1,8 @@
 import Utils.GeneProcessUtils;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -16,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class Main_Test {
+public class Main {
     static class GeneRegion {
         private int number;
         private int start;
@@ -69,20 +63,32 @@ public class Main_Test {
             return result;
         } else return null;
     }
+
     public static void printInOrder(Map<String, Integer> benchmarkIndices, Map<String, Integer> specieScore) {
-        // Sort the key in specieScore and output the key and value (do not output items with a key of "-")
+        // Used to store the output result
+        StringBuilder output = new StringBuilder();
+
+        // Sort the keys in specieScore and output the key and value (do not output items with key as "-")
         specieScore.keySet().stream()
                 .sorted((s1, s2) -> {
                     int index1 = benchmarkIndices.getOrDefault(s1, Integer.MAX_VALUE);
                     int index2 = benchmarkIndices.getOrDefault(s2, Integer.MAX_VALUE);
                     return Integer.compare(index1, index2);
                 })
-                .filter(key -> !"-".equals(key))
+                .filter(key -> !"-".equals(key)) // Do not output items with key as "-"
                 .forEach(key -> {
                     Integer value = specieScore.get(key);
-                    System.out.println(GeneProcessUtils.getOriginalGene(key) + ": " + value);
+                    if (output.length() > 0) {
+                        output.append(","); // Add a comma before the output
+                    }
+                    output.append(value); // Add the value
                 });
+
+        // Output the final result
+        System.out.print(output.toString());
     }
+
+
 
     public static void printGeneScoreInOrder(ArrayList<String> benchmark, Map<String, Integer> specieScore) {
         // Create a Map to hold the location of the strings in the benchmark.
@@ -193,80 +199,115 @@ public class Main_Test {
                 sval[(i + 1) / 2] = specieList.get(i);
         }
 
+        // Total score for each gene
         Map<String, Integer> geneScore = new HashMap<>();
+        // Rearrangement frequency for each gene
         Map<String, Integer> frequency = new HashMap<>();
+        // Total score for all genes in each species
         Map<String, Integer> specieScore = new HashMap<>();
         List<Map<String, Integer>> result = new ArrayList<>();
 
         for (int i = 1; i < sval.length; i++) {
             for (int j = 0; j < benchmark.size(); j++) {
                 String[] specieArr = sval[i].split(",");
-                String gene =  specieArr[j];
+                // Current gene
+                String gene = specieArr[j];
                 if ("-".equals(gene))
                     continue;
+                // Benchmark gene
                 String benchGene = benchmark.get(j);
-                // Score for the gene
+                // Score for the current gene
                 int score = getScore(gene, benchmark, j, geneRegions);
+                // Store the benchmark sequence if there is a reverse key; otherwise, store the current gene
                 if (score >= 0)
                     geneScore.put(gene, score);
-                else geneScore.put(getReverseGene(gene), -score);
+                else
+                    geneScore.put(getReverseGene(gene), -score);
                 frequency = getUnionMap(geneScore, frequency);
                 geneScore.clear();
             }
         }
-        System.out.println("Gene:RF");
-        printGeneScoreInOrder(benchmark, frequency);
 
         for (int i = 1; i < sval.length; i++) {
             int num = 0;
             for (int j = 0; j < benchmark.size(); j++) {
-                // Compare the jth gene of the ith gene sequence with the gene at the jth position and add a point if it is different
+                // Compare the i-th gene sequence's j-th gene with the gene at position j; if they are different, add one point
                 String[] specieArr = sval[i].split(",");
+                // Current gene
                 String gene = specieArr[j];
-                // Score for the gene
+                // Score for the current gene
                 int score = getScore(gene, benchmark, j, geneRegions);
                 num += Math.abs(score);
             }
             specieScore.put(sname[i], num);
         }
-        System.out.println();
-        System.out.println();
-        System.out.println("Species:RS");
         printSpecieScoreInOrder(sname, specieScore);
+        System.out.println();
         return null;
     }
 
-    public static void main(String[] args) throws IOException {
-        // Address of the fasta file that holds the genetic data
-        String fileName = "";
-        List<String> lines = Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
-        String benchmarkStr = null;
 
-        // Address of the file where the gene sequence is stored
-        String filePath = "";
+    /**
+     * Reads even-numbered lines from a text file.
+     *
+     * @param filePath The path to the file from which to read lines.
+     * @return A list containing the even-numbered lines from the file.
+     */
+    public static List<String> readEvenLines(String filePath) {
+        List<String> evenLines = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
+            int lineNumber = 0;
+
             while ((line = br.readLine()) != null) {
-                benchmarkStr = line;
-                ArrayList<String> benchmark = new ArrayList<>();
-                String[] strings = benchmarkStr.split(",");
-                for (String string : strings)
-                    benchmark.add(string);
-
-                String species = "";
-                for (String line1 : lines) {
-                    if ('>' == (line1.charAt(0)) && !"".equals(line1)) {
-                        species = species + line1.substring(1) + "\n";
-                    } else species = species + line1 + "\n";
+                lineNumber++;
+                // Check if the line number is even
+                if (lineNumber % 2 == 0) {
+                    evenLines.add(line);
                 }
-
-                List<GeneRegion> geneRegions = new ArrayList<>();
-                geneRegions.add(new GeneRegion(1, 0, 50));
-                Map<String, Object> result = getResult(benchmark, species, geneRegions);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Output exception information
+        }
+
+        return evenLines; // Return the even lines
+    }
+
+
+    public static void main(String[] args) throws IOException {
+        // Address of the fasta file that contains the genetic data
+        String fileName = "";
+        List<String> lines = Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
+
+        String benchmarkStr = null;
+
+        List<String> geneLines = readEvenLines(fileName);
+
+        Iterator<String> iterator = geneLines.iterator();
+        while (iterator.hasNext()) {
+            String line = iterator.next();
+            benchmarkStr = line;
+            ArrayList<String> benchmark = new ArrayList<>();
+            String[] strings = benchmarkStr.split(",");
+            for (String string : strings)
+                benchmark.add(string);
+
+            // 待量化基因数据
+            String species = "";
+            for (String line1 : lines) {
+                if ('>' == (line1.charAt(0)) && !"".equals(line1)) {
+                    species = species + line1.substring(1) + "\n";
+                } else species = species + line1 + "\n";
+            }
+
+            // 获取基因区域
+            List<GeneRegion> geneRegions = new ArrayList<>();
+            geneRegions.add(new GeneRegion(1, 0, 4));
+            geneRegions.add(new GeneRegion(2, 5, 28));
+            geneRegions.add(new GeneRegion(3, 29, 44));
+            geneRegions.add(new GeneRegion(4, 45, 46));
+            Map<String, Object> result = getResult(benchmark, species, geneRegions);
         }
     }
 }
