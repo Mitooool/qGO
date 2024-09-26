@@ -26,14 +26,19 @@ The qGO algorithm is designed for the precise quantification of mitochondrial ge
 
    Below is an example of the format:
 
-   >>1
-   >>nad1,I,-,M,-,nad2,W,-,-N,-,-,cox1,-,-,cox2,K,atp8,atp6,cox3,G,nad3,R,nad4L,nad4,H,S1,L1,nad5
-   >>2
-   >>nad1,I,-E,M,-,nad2,W,-A,-N,-C,-Y,cox1,-S2,D,cox2,K,atp8,atp6,cox3,G,nad3,R,nad4L,nad4,H,S1,L1,nad5
-   >>3
-   >>nad1,I,-,M,-E,nad2,W,-,-N,-,-,cox1,-,-,cox2,K,atp8,atp6,cox3,G,nad3,R,nad4L,nad4,H,S1,L1,nad5
+   >\>1
+   
+   >nad1,I,-,M,-,nad2,W,-,-N,-,-,cox1,-,-,cox2,K,atp8,atp6,cox3,G,nad3,R,nad4L,nad4,H,S1,L1,nad5
+   
+   >\>2
+   
+   >nad1,I,-E,M,-,nad2,W,-A,-N,-C,-Y,cox1,-S2,D,cox2,K,atp8,atp6,cox3,G,nad3,R,nad4L,nad4,H,S1,L1,nad5
+   
+   >\>3
+   
+   >nad1,I,-,M,-E,nad2,W,-,-N,-,-,cox1,-,-,cox2,K,atp8,atp6,cox3,G,nad3,R,nad4L,nad4,H,S1,L1,nad5
 
-6. #### Defining Gene Regions
+7. #### Defining Gene Regions
 
    On line 306, you will find the code for manually defining gene regions. The provided example is as follows:
 
@@ -54,7 +59,7 @@ The qGO algorithm is designed for the precise quantification of mitochondrial ge
 
    You can customize these parameters according to your specific needs. Feel free to add or remove regions and modify their indices as necessary.
 
-7. #### Compile and Run the Program
+8. #### Compile and Run the Program
 
    Once you have set the necessary parameters, compile the code in your IDE and run the Main method. The console will output the rearranged quantization matrix.
 
