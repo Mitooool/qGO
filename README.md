@@ -12,11 +12,7 @@ The qGO algorithm is designed for the precise quantification of mitochondrial ge
 
    Import the downloaded source code into your Java Integrated Development Environment (IDE). It is recommended to use IntelliJ IDEA for optimal experience.
 
-3. #### Main Method Location
-
-   The main method can be found in the Main.java file located in the src folder. Before executing this method, you need to perform some configurations.
-
-4. #### Specify the FASTA File
+3. #### Specify the FASTA File
 
    In Main.java, navigate to line 280 and specify the path to your FASTA file that contains the gene sequences. Ensure the file is correctly formatted.
 
@@ -34,7 +30,7 @@ The qGO algorithm is designed for the precise quantification of mitochondrial ge
 
    >nad1,I,-,M,-E,nad2,W,-,-N,-,-,cox1,-,-,cox2,K,atp8,atp6,cox3,G,nad3,R,nad4L,nad4,H,S1,L1,nad5
 
-5. #### Defining Gene Regions
+4. #### Define Gene Regions
 
    On line 306, you will find the code for manually defining gene regions. The provided example is as follows:
 
@@ -55,9 +51,9 @@ The qGO algorithm is designed for the precise quantification of mitochondrial ge
 
    You can customize these parameters according to your specific needs. Feel free to add or remove regions and modify their indices as necessary.
 
-6. #### Compile and Run the Program
+5. #### Compile and Run the Program
 
-   Once you have set the necessary parameters, compile the code in your IDE and run the Main method. The console will output the rearranged quantization matrix.
+   Once you have set the necessary parameters, compile and run the code in your IDE. The console will output the rearranged quantization matrix.
 
 ## Additional Notes:
 
