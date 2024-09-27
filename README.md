@@ -4,56 +4,52 @@ The qGO algorithm is designed for the precise quantification of mitochondrial ge
 
 ## Steps for Usage:
 
-1. #### Download the Source Code
+1. ### Download the Source Code
 
    Download the source code to your local machine.
 
-2. #### Import the Source Code
+2. ### Import the Source Code
 
    Import the downloaded source code into your Java Integrated Development Environment (IDE). It is recommended to use IntelliJ IDEA for optimal experience.
 
-3. #### Specify the FASTA File
+3. ### Compile and Run the Program
 
-   In Main.java, navigate to line 280 and specify the path to your FASTA file that contains the gene sequences. Ensure the file is correctly formatted.
+   Compile and run the code in your IDE, Then the following interface will appear：
 
-   Below is an example of the format:
+   ![image](https://github.com/user-attachments/assets/e9844815-3022-4959-b4ce-552ba0be17fb)
 
-   >\>1
 
-   >nad1,I,-,M,-,nad2,W,-,-N,-,-,cox1,-,-,cox2,K,atp8,atp6,cox3,G,nad3,R,nad4L,nad4,H,S1,L1,nad5
+4. ### Specify the FASTA File
 
-   >\>2
+   You can specify the FASTA file using the file path text box located at the top of the interface. There are two ways to do this:
 
-   >nad1,I,-E,M,-,nad2,W,-A,-N,-C,-Y,cox1,-S2,D,cox2,K,atp8,atp6,cox3,G,nad3,R,nad4L,nad4,H,S1,L1,nad5
+   ​	   ① Manual Entry: Click in the text box and type the full path to your .fasta file.
 
-   >\>3
+   ​	   ② Browse Button: Click "Browse" to open a file chooser dialog. Navigate to your .fasta file, select it, and click "Open." The selected file path will automatically populate the text box.
 
-   >nad1,I,-,M,-E,nad2,W,-,-N,-,-,cox1,-,-,cox2,K,atp8,atp6,cox3,G,nad3,R,nad4L,nad4,H,S1,L1,nad5
+5. ### Gene Regions
 
-4. #### Define Gene Regions
+   The qGO application allows you to add multiple gene regions with custom parameters.
 
-   On line 306, you will find the code for manually defining gene regions. The provided example is as follows:
+   To add a gene region, you need to input three fields:
 
-   ```java
-   geneRegions.add(new GeneRegion(1, 0, 4));
-   geneRegions.add(new GeneRegion(2, 5, 28));
-   geneRegions.add(new GeneRegion(3, 29, 44));
-   geneRegions.add(new GeneRegion(4, 45, 46));
-   ```
-
+   ​	① Region Number: An identifier for the region.
    
+   ​	② Starting Index: The beginning index of the region.
+   
+   ​	③ Ending Index: The final index of the region.
 
-   In this example, there are a total of 4 regions defined. Each GeneRegion consists of three parameters:
+   After entering these details, click the button labeled "Add Gene Region" to add the entered gene region to the table.
 
-   	Region Number: Identifier for the region.
-   	Starting Index: The beginning index of the region.
-   	Ending Index: The final index of the region.
+   To remove a gene region from the table, follow these steps:
 
-   You can customize these parameters according to your specific needs. Feel free to add or remove regions and modify their indices as necessary.
+   ​	① Click on the desired row in the Gene Regions Table to highlight it.
+   
+   ​	② Click the button labeled "Remove Selected" to remove the highlighted gene region from the table.
 
-5. #### Compile and Run the Program
+7. #### Compile and Run the Program
 
-   Once you have set the necessary parameters, compile and run the code in your IDE. The console will output the rearranged quantization matrix.
+   After selecting the FASTA file and defining the necessary gene regions, you can execute the application by clicking the button labeled "Run" The results will then be displayed in the console.
 
 ## Additional Notes:
 
