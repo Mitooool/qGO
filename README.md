@@ -26,7 +26,7 @@ The qGO algorithm is designed for the precise quantification of mitochondrial ge
 
    ​	   ① Manual Entry: Click in the text box and type the full path to your .fasta file.
 
-   ​	   ② Browse Button: Click "Browse" to open a file chooser dialog. Navigate to your .fasta file, select it, and click "Open." The selected file path will automatically populate the text box.
+   ​	   ② Browse Button: Click "Browse" to open a file chooser dialog. Navigate to your .fasta file, select it, and click "Open" The selected file path will automatically populate the text box.
 
 5. ### Gene Regions
 
