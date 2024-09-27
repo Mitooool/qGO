@@ -16,7 +16,8 @@ The qGO algorithm is designed for the precise quantification of mitochondrial ge
 
    Compile and run the code in your IDE, Then the following interface will appear：
 
-   ![image](https://github.com/user-attachments/assets/e9844815-3022-4959-b4ce-552ba0be17fb)
+   ![image](https://github.com/user-attachments/assets/536bafe2-bbb2-4303-8565-ae33d404bc90)
+
 
 
 4. ### Specify the FASTA File
