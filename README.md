@@ -47,7 +47,7 @@ The qGO algorithm is designed for the precise quantification of mitochondrial ge
    
    ​	② Click the button labeled "Remove Selected" to remove the highlighted gene region from the table.
 
-7. #### Compile and Run the Program
+7. ### Compile and Run the Program
 
    After selecting the FASTA file and defining the necessary gene regions, you can execute the application by clicking the button labeled "Run" The results will then be displayed in the console.
 
