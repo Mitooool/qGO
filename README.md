@@ -4,66 +4,55 @@ The qGO algorithm is designed for the precise quantification of mitochondrial ge
 
 ## Steps for Usage:
 
-1. #### Download the Source Code
+1. ### Download the Source Code
 
    Download the source code to your local machine.
 
-2. #### Java Environment
-
-   Since the algorithm is implemented in Java, ensure that you have the Java Runtime Environment (JRE) installed. It is recommended to use the Java Development Kit (JDK) for compilation and execution.
-
-3. #### Import the Source Code
+2. ### Import the Source Code
 
    Import the downloaded source code into your Java Integrated Development Environment (IDE). It is recommended to use IntelliJ IDEA for optimal experience.
 
-4. #### Main Method Location
+3. ### Compile and Run the Program
 
-   The main method can be found in the Main.java file located in the src folder. Before executing this method, you need to perform some configurations.
+   Compile and run the code in your IDE, Then the following interface will appear：
 
-5. #### Specify the FASTA File
+   ![image](https://github.com/user-attachments/assets/e9844815-3022-4959-b4ce-552ba0be17fb)
 
-   In Main.java, navigate to line 280 and specify the path to your FASTA file that contains the gene sequences. Ensure the file is correctly formatted.
 
-   Below is an example of the format:
+4. ### Specify the FASTA File
 
-   >\>1
+   You can specify the FASTA file using the file path text box located at the top of the interface. There are two ways to do this:
+
+   ​	   ① Manual Entry: Click in the text box and type the full path to your .fasta file.
+
+   ​	   ② Browse Button: Click "Browse" to open a file chooser dialog. Navigate to your .fasta file, select it, and click "Open." The selected file path will automatically populate the text box.
+
+5. ### Gene Regions
+
+   The qGO application allows you to add multiple gene regions with custom parameters.
+
+   To add a gene region, you need to input three fields:
+
+   ​	① Region Number: An identifier for the region.
    
-   >nad1,I,-,M,-,nad2,W,-,-N,-,-,cox1,-,-,cox2,K,atp8,atp6,cox3,G,nad3,R,nad4L,nad4,H,S1,L1,nad5
+   ​	② Starting Index: The beginning index of the region.
    
-   >\>2
+   ​	③ Ending Index: The final index of the region.
+
+   After entering these details, click the button labeled "Add Gene Region" to add the entered gene region to the table.
+
+   To remove a gene region from the table, follow these steps:
+
+   ​	① Click on the desired row in the Gene Regions Table to highlight it.
    
-   >nad1,I,-E,M,-,nad2,W,-A,-N,-C,-Y,cox1,-S2,D,cox2,K,atp8,atp6,cox3,G,nad3,R,nad4L,nad4,H,S1,L1,nad5
-   
-   >\>3
-   
-   >nad1,I,-,M,-E,nad2,W,-,-N,-,-,cox1,-,-,cox2,K,atp8,atp6,cox3,G,nad3,R,nad4L,nad4,H,S1,L1,nad5
+   ​	② Click the button labeled "Remove Selected" to remove the highlighted gene region from the table.
 
-7. #### Defining Gene Regions
+7. ### Compile and Run the Program
 
-   On line 306, you will find the code for manually defining gene regions. The provided example is as follows:
-
-   ```java
-   geneRegions.add(new GeneRegion(1, 0, 4));
-   geneRegions.add(new GeneRegion(2, 5, 28));
-   geneRegions.add(new GeneRegion(3, 29, 44));
-   geneRegions.add(new GeneRegion(4, 45, 46));
-   ```
-
-   
-
-   In this example, there are a total of 4 regions defined. Each GeneRegion consists of three parameters:
-
-   ​	Region Number: Identifier for the region.
-   ​	Starting Index: The beginning index of the region.
-   ​	Ending Index: The final index of the region.
-
-   You can customize these parameters according to your specific needs. Feel free to add or remove regions and modify their indices as necessary.
-
-8. #### Compile and Run the Program
-
-   Once you have set the necessary parameters, compile the code in your IDE and run the Main method. The console will output the rearranged quantization matrix.
+   After selecting the FASTA file and defining the necessary gene regions, you can execute the application by clicking the button labeled "Run" The results will then be displayed in the console.
 
 ## Additional Notes:
 
-Ensure that your input files are correctly formatted to avoid runtime errors.
-If you encounter issues, check the IDE's console for error messages which can help in troubleshooting.
+- Since the algorithm is implemented in Java, ensure that you have the Java Runtime Environment (JRE) installed. It is recommended to use the Java Development Kit (JDK) for compilation and execution.
+- Ensure that your input files are correctly formatted to avoid runtime errors.
+- If you encounter issues, check the IDE's console for error messages which can help in troubleshooting.
