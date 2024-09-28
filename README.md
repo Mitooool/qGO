@@ -40,17 +40,17 @@ The qGO algorithm is designed for the precise quantification of mitochondrial ge
    
    ​	③ Ending Index: The final index of the region.
 
-   After entering these details, click the button labeled "Add GeneRegion" to add the entered gene region to the table.
+   After entering these details, click the button labelled "Add GeneRegion" to add the entered gene region to the table.
 
    To remove a gene region from the table, follow these steps:
 
    ​	① Click on the desired row in the Gene Regions Table to highlight it.
    
-   ​	② Click the button labeled "Remove Selected" to remove the highlighted gene region from the table.
+   ​	② Click the button labelled "Remove Selected" to remove the highlighted gene region from the table.
 
 7. ### Run the Program
 
-   After selecting the FASTA file and defining the necessary gene regions, you can execute the application by clicking the button labeled "Run". The results will then be displayed in the console.
+   After selecting the FASTA file and defining the necessary gene regions, you can execute the application by clicking the button labelled "Run". The results will then be displayed in the console.
 
 ## Additional Notes:
 
