@@ -88,14 +88,29 @@ public class Main {
         System.out.print(output.toString());
     }
 
-
+    public static void printInOrder2(Map<String, Integer> benchmarkIndices, Map<String, Integer> specieScore) {
+        // 对specieScore中的key进行排序并输出key和value（不输出key为"-"的项）
+        specieScore.keySet().stream()
+                .sorted((s1, s2) -> {
+                    int index1 = benchmarkIndices.getOrDefault(s1, Integer.MAX_VALUE);
+                    int index2 = benchmarkIndices.getOrDefault(s2, Integer.MAX_VALUE);
+                    return Integer.compare(index1, index2);
+                })
+                .filter(key -> !"-".equals(key)) // 不输出key为"-"
+                .forEach(key -> {
+                    Integer value = specieScore.get(key);
+                    System.out.println(GeneProcessUtils.getOriginalGene(key) + ": " + value);
+//                    System.out.println(value);
+//                    GeneProcessUtils.writeLineToFile("D:\\IDEA\\IdeaProjects\\JDBC\\src\\test\\数据对比\\结果", key + ": " + value);
+                });
+    }
 
     public static void printGeneScoreInOrder(ArrayList<String> benchmark, Map<String, Integer> specieScore) {
         // Create a Map to hold the location of the strings in the benchmark.
         Map<String, Integer> benchmarkIndices = new HashMap<>();
         for (int i = 0; i < benchmark.size(); i++)
             benchmarkIndices.put(benchmark.get(i), i);
-        printInOrder(benchmarkIndices, specieScore);
+        printInOrder2(benchmarkIndices, specieScore);
     }
     public static void printSpecieScoreInOrder(String[] benchmark, Map<String, Integer> specieScore) {
         // Create a Map to hold the location of the strings in the benchmark.
@@ -155,7 +170,7 @@ public class Main {
         return null;
     }
     // Get the reversed gene
-    private static String getReverseGene(String gene) {
+    static String getReverseGene(String gene) {
         return gene.charAt(0) == '-' ? gene.substring(1) : "-" + gene;
     }
 
@@ -208,27 +223,6 @@ public class Main {
         List<Map<String, Integer>> result = new ArrayList<>();
 
         for (int i = 1; i < sval.length; i++) {
-            for (int j = 0; j < benchmark.size(); j++) {
-                String[] specieArr = sval[i].split(",");
-                // Current gene
-                String gene = specieArr[j];
-                if ("-".equals(gene))
-                    continue;
-                // Benchmark gene
-                String benchGene = benchmark.get(j);
-                // Score for the current gene
-                int score = getScore(gene, benchmark, j, geneRegions);
-                // Store the benchmark sequence if there is a reverse key; otherwise, store the current gene
-                if (score >= 0)
-                    geneScore.put(gene, score);
-                else
-                    geneScore.put(getReverseGene(gene), -score);
-                frequency = getUnionMap(geneScore, frequency);
-                geneScore.clear();
-            }
-        }
-
-        for (int i = 1; i < sval.length; i++) {
             int num = 0;
             for (int j = 0; j < benchmark.size(); j++) {
                 // Compare the i-th gene sequence's j-th gene with the gene at position j; if they are different, add one point
@@ -246,6 +240,56 @@ public class Main {
         return null;
     }
 
+    public static Map<String, Integer> getResult1(ArrayList<String> benchmark, String species, List<GeneRegion> geneRegions) {
+        String[] specie = species.split("\n");
+        ArrayList<String> specieList = new ArrayList<>();
+        for (String s : specie) {
+            if (!s.trim().equals(""))
+                specieList.add(s);
+        }
+        String[] sname = new String[specieList.size() / 2 + 1];
+        String[] sval = new String[specieList.size() / 2 + 1];
+        for (int i = 0; i < specieList.size(); i++) {
+            if (i % 2 == 0)
+                sname[i / 2 + 1] = specieList.get(i);
+            else
+                sval[(i + 1) / 2] = specieList.get(i);
+        }
+
+        // 每个基因的总分
+        Map<String, Integer> geneScore = new HashMap<>();
+        // 每个基因的重排频率
+        Map<String, Integer> frequency = new HashMap<>();
+        // 每个种类中所有基因的总分
+        Map<String, Integer> specieScore = new HashMap<>();
+        List<Map<String, Integer>> result = new ArrayList<>();
+
+        for (int i = 1; i < sval.length; i++) {
+            for (int j = 0; j < benchmark.size(); j++) {
+                String[] specieArr = sval[i].split(",");
+                // 该基因
+                String gene = specieArr[j];
+//                if ("176".equals(sname[i])) {
+//                    System.out.println(1);
+//                }
+                if ("-".equals(gene))
+                    continue;
+                // 基准基因
+                String benchGene = benchmark.get(j);
+                // 该基因得分
+                int score = getScore(gene, benchmark, j, geneRegions);
+//                if (score < 0) System.out.println(sname[i] + "--------");
+                // 如果有反转key就存储基准序列，没有反转key就存储该基因
+                if (score >= 0)
+                    geneScore.put(gene, score);
+                else geneScore.put(getReverseGene(gene), -score);
+                frequency = getUnionMap(geneScore, frequency);
+                geneScore.clear();
+            }
+        }
+        printGeneScoreInOrder(benchmark, frequency);
+        return frequency;
+    }
 
     /**
      * Reads even-numbered lines from a text file.

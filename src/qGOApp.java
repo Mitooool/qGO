@@ -1,4 +1,3 @@
-// qGOApp.java
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -231,6 +230,22 @@ public class qGOApp extends JFrame {
                 // Read even lines (assuming readEvenLines is defined in Main.java)
                 List<String> geneLines = Main.readEvenLines(fileName);
 
+                ArrayList<String> benchmark1 = new ArrayList<>();
+                String benchmarkStr = geneLines.get(0);
+
+                String[] string = benchmarkStr.split(",");
+                for (String str : string)
+                    benchmark1.add(str);
+
+                // 待量化基因数据
+                String species1 = "";
+                for (String line : lines) {
+                    if ('>' == (line.charAt(0)) && !"".equals(line)) {
+                        species1 = species1 + line.substring(1) + "\n";
+                    } else species1 = species1 + line + "\n";
+                }
+
+                System.out.println("----------------------RS matrix----------------------");
                 for (String line : geneLines) {
                     // Process each gene line
                     List<String> benchmark = new ArrayList<>();
@@ -254,6 +269,8 @@ public class qGOApp extends JFrame {
                     // Output to console
 //                    System.out.println(result);
                 }
+                System.out.println("----------------------RF----------------------");
+                Map<String, Integer> frequency = Main.getResult1(benchmark1, species1, geneRegions);
 
                 JOptionPane.showMessageDialog(this, "Processing completed. Check the console for results.", "Success", JOptionPane.INFORMATION_MESSAGE);
 
