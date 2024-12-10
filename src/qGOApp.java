@@ -1,7 +1,6 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
@@ -237,7 +236,6 @@ public class qGOApp extends JFrame {
                 for (String str : string)
                     benchmark1.add(str);
 
-                // 待量化基因数据
                 String species1 = "";
                 for (String line : lines) {
                     if ('>' == (line.charAt(0)) && !"".equals(line)) {

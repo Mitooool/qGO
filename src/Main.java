@@ -5,9 +5,6 @@ import com.google.common.collect.Sets;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class Main {
@@ -89,19 +86,16 @@ public class Main {
     }
 
     public static void printInOrder2(Map<String, Integer> benchmarkIndices, Map<String, Integer> specieScore) {
-        // 对specieScore中的key进行排序并输出key和value（不输出key为"-"的项）
         specieScore.keySet().stream()
                 .sorted((s1, s2) -> {
                     int index1 = benchmarkIndices.getOrDefault(s1, Integer.MAX_VALUE);
                     int index2 = benchmarkIndices.getOrDefault(s2, Integer.MAX_VALUE);
                     return Integer.compare(index1, index2);
                 })
-                .filter(key -> !"-".equals(key)) // 不输出key为"-"
+                .filter(key -> !"-".equals(key))
                 .forEach(key -> {
                     Integer value = specieScore.get(key);
                     System.out.println(GeneProcessUtils.getOriginalGene(key) + ": " + value);
-//                    System.out.println(value);
-//                    GeneProcessUtils.writeLineToFile("D:\\IDEA\\IdeaProjects\\JDBC\\src\\test\\数据对比\\结果", key + ": " + value);
                 });
     }
 
@@ -256,30 +250,22 @@ public class Main {
                 sval[(i + 1) / 2] = specieList.get(i);
         }
 
-        // 每个基因的总分
+        // Total score for each gene
         Map<String, Integer> geneScore = new HashMap<>();
-        // 每个基因的重排频率
+        // Reorganization frequency for each gene
         Map<String, Integer> frequency = new HashMap<>();
-        // 每个种类中所有基因的总分
-        Map<String, Integer> specieScore = new HashMap<>();
         List<Map<String, Integer>> result = new ArrayList<>();
 
         for (int i = 1; i < sval.length; i++) {
             for (int j = 0; j < benchmark.size(); j++) {
                 String[] specieArr = sval[i].split(",");
-                // 该基因
                 String gene = specieArr[j];
-//                if ("176".equals(sname[i])) {
-//                    System.out.println(1);
-//                }
                 if ("-".equals(gene))
                     continue;
-                // 基准基因
+                // Benchmark gene
                 String benchGene = benchmark.get(j);
-                // 该基因得分
+                // Score of the gene
                 int score = getScore(gene, benchmark, j, geneRegions);
-//                if (score < 0) System.out.println(sname[i] + "--------");
-                // 如果有反转key就存储基准序列，没有反转key就存储该基因
                 if (score >= 0)
                     geneScore.put(gene, score);
                 else geneScore.put(getReverseGene(gene), -score);
@@ -290,6 +276,7 @@ public class Main {
         printGeneScoreInOrder(benchmark, frequency);
         return frequency;
     }
+
 
     /**
      * Reads even-numbered lines from a text file.
